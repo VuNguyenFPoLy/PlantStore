@@ -140,6 +140,76 @@ export default styles = StyleSheet.create({
     },
     justifyContentSpaceAround: {
         justifyContent: 'space-around'
+    },
+    paddingHorizontal25: {
+        paddingHorizontal: 25
+    },
+    height200px: {
+        height: 200
+    },
+    fontSize24: {
+        fontSize: 24
+    },
+    color221F1F: {
+        color: '#221F1F'
+    },
+    fontFamilyLatoRegular: {
+        fontFamily: 'Lato-Regular'
+    }, fontFamilyLatoBold: {
+        fontFamily: 'Lato-Bold'
+    },
+    fontweight500:
+    {
+        fontWeight: '500'
+    },
+    width48: {
+        width: 48
+    },
+    height46: {
+        height: 46
+    },
+    backgroundColorF6F6F6: {
+        backgroundColor: '#F6F6F6'
+    },
+    paddingTop24: {
+        paddingTop: 24
+    },
+    marginTop7: {
+        marginTop: 7
+    },
+    color007537: {
+        color: '#007537'
+    },
+    fontSize16: {
+        fontSize: 16
+    },
+    sizeIcon24px: {
+        width: 24,
+        height: 24
+    },
+    height100: {
+        height: '100%'
+    },
+    borderRadius8px: {
+        borderRadius: 8
+    },
+    width155: {
+        width: 155
+    },
+    height134: {
+        height: 134
+    },
+    marginTop15px: {
+        marginTop: 15
+    },
+    paddingHorizontal24: {
+        paddingHorizontal: 24
+    },
+    gap15px: {
+        gap: 15
+    },
+    backgroundColorWhite: {
+        backgroundColor: 'white'
     }
 
 })
