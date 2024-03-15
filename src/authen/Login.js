@@ -1,5 +1,5 @@
 import { View, StatusBar, KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 import Style from '../style/AppStyle'
 import HeaderAuthen from '../commons/HeaderAuthen'
@@ -7,12 +7,36 @@ import AppTextInput from '../commons/AppTextInput'
 import ButtonAuthen from '../commons/ButtonAuthen'
 import BottomAuthen from '../commons/BottomAuthen'
 
-const Login = () => {
+const Login = (props) => {
+
+    const { navigation } = props
 
     StatusBar.setHidden(true)
 
+    const [rememberAcount, setRememberAcount] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
     const srcImg = require('../resouces/image/headerLogin.png');
     const srcIconEye = require('../resouces/icon/eye.png');
+    const srcIconEyeOff = require('../resouces/icon/eyeOff.png');
+    const srcIconGrayStick = require('../resouces/icon/grayStick.png');
+    const srcIconGreenStick = require('../resouces/icon/greenStick.png');
+
+    const handleClickLogin = () => {
+        navigation.navigate('TabNavigation')
+    }
+
+    const handleClickRegister = () => {
+        navigation.navigate('Register')
+    }
+
+    const hanldeRememberAccount = () => {
+        setRememberAcount(!rememberAcount)
+    }
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword)
+    }
 
 
     return (
@@ -48,7 +72,8 @@ const Login = () => {
                         />
 
                         <AppTextInput
-                            srcIcon={srcIconEye}
+                            srcIcon={showPassword ? srcIconEyeOff : srcIconEye}
+                            onPress={handleShowPassword}
                             style={{
                                 txtInput: getStyleTextInput(),
                                 sizeIcon: getStyleIconEye(),
@@ -60,12 +85,17 @@ const Login = () => {
                         />
 
                         <ButtonAuthen
+                            onPressLogin={handleClickLogin}
+                            onPressRemember={hanldeRememberAccount}
+                            srcIconLeft={rememberAcount ? srcIconGreenStick : srcIconGrayStick}
                             titleBtn='Đăng nhập'
                         />
 
                         <BottomAuthen
                             contentBlackText='Bạn không có tài khoản ?'
                             contentGreenText='Tạo tài khoản'
+                            onPressGreenText={handleClickRegister}
+
                         />
                     </View>
                 </View>

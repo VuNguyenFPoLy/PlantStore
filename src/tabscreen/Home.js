@@ -1,26 +1,40 @@
-import { View, Text, SafeAreaView } from 'react-native'
+import { View, Text, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native'
 import React from 'react'
 import HeaderHome from '../commons/HeaderHome'
 import Style from '../style/AppStyle'
 import AppFlatList from '../commons/AppFlatList'
 import AppItemProductColumn from '../commons/AppItemProductColumn'
+import AppDoubleText from '../commons/AppDoubleText'
 
 
-const Home = () => {
+const Home = (props) => {
+
+    const { navigation } = props
+    StatusBar.setHidden(false)
 
     const srcIconRight = require('../resouces/icon/circleCart.png');
     const srcIconInText = require('../resouces/icon/greenArrowRight.png');
     const srcImgBackground = require('../resouces/image/headerHome.png');
 
+    const onPressItem = () => {
+        navigation.navigate('DetailProduct')
+    }
+
+    const onPressViewMore = () => {
+        navigation.navigate('ListProduct')
+    }
+
     const renderItem = (item) => {
         const itemr = item.item
         return (
-            < AppItemProductColumn
-                name={itemr.name}
-                type={itemr.type}
-                price={itemr.price}
-                srcImg={itemr.srcImg}
-            />
+            <TouchableOpacity onPress={() => onPressItem()}>
+                < AppItemProductColumn
+                    name={itemr.name}
+                    type={itemr.type}
+                    price={itemr.price}
+                    srcImg={itemr.srcImg}
+                />
+            </TouchableOpacity>
         )
     }
 
@@ -46,13 +60,30 @@ const Home = () => {
                 }}
             />
 
-            <AppFlatList
-                title={'Cây trồng'}
-                data={itemList}
-                renderItem={renderItem}
-                numColumn={2}
-                columnWrapperStyle={getStyleColumnWrapper()}
-            />
+            <View style={getStyleBody()}>
+                <AppFlatList
+                    title={'Cây trồng'}
+                    data={itemList}
+                    renderItem={renderItem}
+                    numColumn={2}
+                    columnWrapperStyle={getStyleColumnWrapper()}
+                    style={{
+                        container: getStyleContainerFlatList()
+                    }}
+                />
+
+                <AppDoubleText
+                    textRight={'Xem thêm cây trồng'}
+                    onPressRight={onPressViewMore}
+                    style={{
+                        txtRight: getStyleViewMoreProduct()
+                    }}
+                />
+
+            </View>
+
+
+
         </SafeAreaView>
     )
 }
@@ -75,6 +106,31 @@ var itemList = [
         srcImg: require('../resouces/image/sp2.png')
     },
 ]
+
+var getStyleBody = () => {
+    return {
+        ...Style.paddingHorizontal24,
+        ...Style.flex1
+    }
+}
+
+var getStyleContainerFlatList = () => {
+    return {
+        ...Style.marginTop15px,
+        ...Style.gap15px,
+
+    }
+}
+
+var getStyleViewMoreProduct = () => {
+    return {
+        ...Style.textAlignRight,
+        ...Style.underLine,
+        ...Style.fontSize16,
+        ...Style.color221F1F,
+        ...Style.marginTop20px,
+    }
+}
 
 var getStyleContainer = () => {
     return {

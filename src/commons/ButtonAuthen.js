@@ -5,7 +5,8 @@ import AppLinearGradient from './AppLinearGradient'
 
 const ButtonAuthen = (props) => {
 
-    const { onPressForgot, onPressLogin, onPressRemember, titleBtn } = props
+    const { onPressForgot, onPressLogin, onPressRemember, titleBtn,
+        srcIconLeft } = props
 
     const renderText = (value) => {
         if (value) {
@@ -16,7 +17,7 @@ const ButtonAuthen = (props) => {
                             <TouchableOpacity
                                 onPress={onPressRemember}
                             >
-                                <Image style={{ ...Style.sizeIcon22px }} source={require('../resouces/icon/grayStick.png')} />
+                                <Image style={{ ...Style.sizeIcon22px }} source={srcIconLeft} />
                             </TouchableOpacity>
                             <Text style={getStyleGrayText()}>Nhớ tài khoản</Text>
                         </View>

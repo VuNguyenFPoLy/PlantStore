@@ -4,7 +4,7 @@ import Style from '../style/AppStyle'
 
 const BottomAuthen = (props) => {
 
-    const { onPressLoginWithFb, onPressLoginWithGg, onPressRegister,
+    const { onPressLoginWithFb, onPressLoginWithGg, onPressGreenText,
         contentBlackText, contentGreenText } = props
 
 
@@ -26,7 +26,7 @@ const BottomAuthen = (props) => {
                 </TouchableOpacity>
             </View>
 
-            <Text style={getStyleBlackText()}>{contentBlackText} <Text style={getStyleGreenText()}>{contentGreenText}</Text></Text>
+            <Text style={getStyleBlackText()}>{contentBlackText} <Text onPress={onPressGreenText} style={getStyleGreenText()}>{contentGreenText}</Text></Text>
         </View>
     )
 }

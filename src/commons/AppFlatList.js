@@ -4,18 +4,21 @@ import Style from '../style/AppStyle'
 
 const AppFlatList = (props) => {
 
-    const { title, data, renderItem, numColumn, columnWrapperStyle, style } = props
+    const { title, data, renderItem, numColumn, columnWrapperStyle,
+        style, horizontal } = props
 
     return (
-        <View style={getStyleContainer()}>
-            <Text style={getStyleTile()}>{title}</Text>
+        <View style={style.container}>
+            {title && <Text style={getStyleTile()}>{title}</Text>}
+
             <FlatList
                 data={data}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
-                numColumns={numColumn == 2 ? 2 : 1}
+                keyExtractor={item => item.id.toString()}
+                numColumns={numColumn == 2 ? 2 : null}
                 columnWrapperStyle={columnWrapperStyle}
                 style={style}
+                horizontal={horizontal}
             />
         </View>
     )
@@ -26,14 +29,7 @@ export default AppFlatList
 
 
 
-var getStyleContainer = () => {
-    return {
-        ...Style.marginTop15px,
-        ...Style.paddingHorizontal24,
-        ...Style.gap15px,
 
-    }
-}
 
 var getStyleTile = () => {
     return {

@@ -7,12 +7,17 @@ import AppTextInput from '../commons/AppTextInput'
 import ButtonAuthen from '../commons/ButtonAuthen'
 import BottomAuthen from '../commons/BottomAuthen'
 
-const Register = () => {
+const Register = (props) => {
+
+    const { navigation } = props;
     StatusBar.setHidden(true)
 
     const srcImg = require('../resouces/image/headerRegister.png');
     const srcIconEye = require('../resouces/icon/eye.png');
 
+    const handleClickGoBack = () => {
+        navigation.goBack()
+    }
 
 
     return (
@@ -88,6 +93,7 @@ const Register = () => {
                         <BottomAuthen
                             contentBlackText='Tôi đã có tài khoản '
                             contentGreenText='Đăng nhập'
+                            onPressGreenText={handleClickGoBack}
                         />
                     </View>
                 </View>

@@ -4,7 +4,7 @@ import React from 'react'
 const AppTextInput = (props) => {
 
     const { placeholder, contentWarning, srcIcon, keyboardType,
-        secureTextEntry, value, setValue, style, onPess } = props
+        secureTextEntry, value, setValue, style, onPress } = props
     return (
         <View>
             <View>
@@ -19,7 +19,7 @@ const AppTextInput = (props) => {
 
                 {srcIcon &&
                     <TouchableOpacity
-                        onPress={onPess}
+                        onPress={onPress}
                         style={style.position}>
                         <Image style={style.sizeIcon} source={srcIcon} />
                     </TouchableOpacity>}

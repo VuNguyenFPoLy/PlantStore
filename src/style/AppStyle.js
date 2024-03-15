@@ -210,6 +210,108 @@ export default styles = StyleSheet.create({
     },
     backgroundColorWhite: {
         backgroundColor: 'white'
+    },
+    paddingVertical17px: {
+        paddingVertical: 17
+    },
+    backgroundColorABABAB: {
+        backgroundColor: '#ABABAB'
+    },
+    borderBottomColorABABAB: {
+        borderBottomColor: '#ABABAB'
+    },
+    borderBottomWidth1px: {
+        borderBottomWidth: 1
+    },
+    paddingBottom5px: {
+        paddingBottom: 5
+    },
+    color3A3A3A: {
+        color: '#3A3A3A'
+    },
+    width34: {
+        width: 34
+    },
+    height8: {
+        height: 8
+    },
+    marginBottom5: {
+        marginBottom: 5
+    },
+    justifyContentFlexEnd: {
+        justifyContent: 'flex-end'
+    },
+    height270: {
+        height: 270
+    },
+    paddingHorizontal19px: {
+        paddingHorizontal: 19
+    },
+    paddingHorizontal48: {
+        paddingHorizontal: 48
+    },
+    gap8: {
+        gap: 8
+    },
+    marginVertical15: {
+        marginVertical: 15
+    },
+    backgroundColor00924: {
+        backgroundColor: '#009245'
+    },
+    paddingVertical4: {
+        paddingVertical: 4
+    },
+    paddingHorizontal8px: {
+        paddingHorizontal: 8
+    },
+    borderRadius4px: {
+        borderRadius: 4
+    },
+    marginBottom15: {
+        marginBottom: 15
+    },
+    gap20: {
+        gap: 20
+    },
+    color007537: {
+        color: '#007537'
+    },
+    width24: {
+        width: 24
+    },
+    borderBottomColor221F1F: {
+        borderBottomColor: '#221F1F'
+    },
+    colorBlack: {
+        color: 'black'
+    },
+    sizeIcon20px: {
+        width: 20,
+        height: 20
+    },
+    size77px: {
+        width: 77,
+        height: 77
+    },
+    color7D7B7B: {
+        color: '#7D7B7B'
+    },
+    marginRight8: {
+        marginRight: 8
+    },
+    backgroundColor009245: {
+        backgroundColor: '#009245',
+    },
+    textAlignRight: {
+        textAlign: 'right'
+    },
+    sizeIconDot: {
+        width: 4,
+        height: 4
+    },
+    marginTop2: {
+        marginTop: 2
     }
 
 })

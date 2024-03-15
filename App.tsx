@@ -2,9 +2,11 @@ import React from 'react';
 import {
   View,
 } from 'react-native';
-import AppStyle from './src/assets/style/AppStyle';
-import ScreenNavigation from './src/assets/ScreenNavigation';
+import AppStyle from './src/style/AppStyle';
+import ScreenNavigation from './src/ScreenNavigation';
 import { NavigationContainer } from '@react-navigation/native';
+import DetailProduct from './src/stackscreen/DetailProduct';
+
 
 function App(): React.JSX.Element {
 
