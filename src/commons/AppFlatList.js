@@ -36,6 +36,7 @@ var getStyleTile = () => {
         ...Style.fontSize24,
         ...Style.color221F1F,
         ...Style.fontFamilyLatoRegular,
+        ...Style.height40,
     }
 }
 

@@ -312,6 +312,12 @@ export default styles = StyleSheet.create({
     },
     marginTop2: {
         marginTop: 2
+    },
+    paddingTop48: {
+        paddingTop: 48
+    },
+    height40: {
+        height: 40
     }
 
 })

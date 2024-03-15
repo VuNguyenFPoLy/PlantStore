@@ -171,14 +171,16 @@ var getStyleTxtContentClickAble = () => {
 
 var getStyleContentInImgHeader = () => {
     return {
-        ...Style.paddingHorizontal25
+        ...Style.paddingHorizontal25,
+
     }
 }
 
 var getStyleRowContenClickable = () => {
     return {
         ...Style.flexDirectionRow,
-        ...Style.marginTop7,
+        ...Style.marginTop15px,
+
     }
 }
 
@@ -188,7 +190,7 @@ var getStyleRowCart = () => {
         ...Style.alignItemsCenter,
         ...Style.justifyContentSpaceBetween,
         ...Style.backgroundColorF6F6F6,
-        ...Style.paddingTop24,
+        ...Style.paddingTop48,
         ...Style.paddingHorizontal25,
     }
 }
@@ -205,6 +207,7 @@ var getStyleTitleHeader = () => {
         ...Style.fontSize24,
         ...Style.color221F1F,
         ...Style.fontFamilyLatoRegular,
+        ...Style.height40,
     }
 }
 

@@ -60,7 +60,9 @@ const ListProduct = (props) => {
                 data={categories}
                 renderItem={renderCategory}
                 horizontal={true}
-                style={{}}
+                style={{
+                    container: getStyleFlatListCategory()
+                }}
             />
 
             <AppFlatList
@@ -113,6 +115,12 @@ var categories = [
         name: 'Ưa bóng'
     }]
 
+var getStyleFlatListCategory = () => {
+    return {
+        ...Style.marginVertical15
+    }
+}
+
 var getStyleHeader = () => {
     return {
         ...Style.marginTop30px
@@ -150,6 +158,7 @@ var getStyleCategory = () => {
 var getStyleContainer = () => {
     return {
         ...Style.flex1,
-        ...Style.paddingHorizontal24
+        ...Style.paddingHorizontal24,
+        ...Style.backgroundColorWhite,
     }
 }
