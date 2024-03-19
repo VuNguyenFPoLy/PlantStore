@@ -318,6 +318,15 @@ export default styles = StyleSheet.create({
     },
     height40: {
         height: 40
+    },
+    gap38: {
+        gap: 38
+    },
+    padding5: {
+        padding: 5
+    },
+    backgroundColor007537: {
+        backgroundColor: '#007537'
     }
 
 })

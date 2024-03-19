@@ -1,10 +1,11 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Style from '../style/AppStyle'
 
 const AppControllQuantity = (props) => {
 
-    const { quantity, txtRight, onPressMinus, onPressPlus, style } = props
+    const { quantity, txtRight, onPressMinus, onPressPlus,
+         style, onPressText } = props
 
     return (
         <View style={style.containerQuantity}>
@@ -14,18 +15,22 @@ const AppControllQuantity = (props) => {
                 </TouchableOpacity>
 
                 <Text style={getStyleTxtQuantity()}>{quantity}</Text>
-                
+
                 <TouchableOpacity>
                     <Image style={getStyleSizeIcon()} source={require('../resouces/icon/blackSquarePlus.png')} />
                 </TouchableOpacity>
             </View>
 
-            <Text style={style.txtRight}>{txtRight}</Text>
+            <Pressable onPress={onPressText}>
+                <Text style={style.txtRight}>{txtRight}</Text>
+            </Pressable>
         </View>
     )
 }
 
 export default AppControllQuantity
+
+
 
 var getStyleTxtQuantity = () => {
     return {
@@ -34,7 +39,6 @@ var getStyleTxtQuantity = () => {
 
     }
 }
-
 
 var getStyleSizeIcon = () => {
     return {

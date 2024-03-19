@@ -15,6 +15,7 @@ import Notification from './tabscreen/Notification'
 import Profile from './tabscreen/Profile'
 import DetailProduct from './stackscreen/DetailProduct'
 import ListProduct from './stackscreen/ListProduct'
+import Cart from './stackscreen/Cart'
 
 const TabNavigation = () => {
 
@@ -87,13 +88,14 @@ const ScreenNavigation = () => {
     return (
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
-            initialRouteName='Login'
+            initialRouteName='Cart'
         >
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name='TabNavigation' component={TabNavigation} />
             <Stack.Screen name='DetailProduct' component={DetailProduct} />
             <Stack.Screen name='ListProduct' component={ListProduct} />
+            <Stack.Screen name='Cart' component={Cart} />
 
 
 
