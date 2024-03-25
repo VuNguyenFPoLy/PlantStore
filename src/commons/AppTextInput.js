@@ -4,7 +4,9 @@ import React from 'react'
 const AppTextInput = (props) => {
 
     const { placeholder, contentWarning, srcIcon, keyboardType,
-        secureTextEntry, value, setValue, style, onPress } = props
+        secureTextEntry, value, setValue, style, onPress,
+        onFocus, onBlur } = props
+        
     return (
         <View>
             <View>
@@ -15,6 +17,8 @@ const AppTextInput = (props) => {
                     secureTextEntry={secureTextEntry}
                     value={value}
                     onChangeText={setValue}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
                 />
 
                 {srcIcon &&
@@ -25,7 +29,7 @@ const AppTextInput = (props) => {
                     </TouchableOpacity>}
             </View>
 
-            <Text style={style.txtErr}>{contentWarning}</Text>
+            {contentWarning && <Text style={style.txtErr}>{contentWarning}</Text>}
         </View>
     )
 }

@@ -5,7 +5,7 @@ import AppLinearGradient from './AppLinearGradient'
 
 const ButtonAuthen = (props) => {
 
-    const { onPressForgot, onPressLogin, onPressRemember, titleBtn,
+    const { onPressForgot, onPressTouchable, onPressRemember, titleBtn,
         srcIconLeft } = props
 
     const renderText = (value) => {
@@ -44,7 +44,7 @@ const ButtonAuthen = (props) => {
             {renderText(titleBtn)}
 
             <TouchableOpacity
-                onPress={onPressLogin}
+                onPress={onPressTouchable}
             >
                 <AppLinearGradient
                     color={['#007537', '#4CAF50']}

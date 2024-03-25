@@ -327,6 +327,50 @@ export default styles = StyleSheet.create({
     },
     backgroundColor007537: {
         backgroundColor: '#007537'
+    },
+    borderColor009245: {
+        borderColor: '#009245'
+    },
+    padding24: {
+        padding: 24
+    },
+    marginVertical10: {
+        marginVertical: 10
+    },
+    size40px: {
+        width: 40,
+        height: 40
+    },
+    borderCircle: {
+        borderRadius: 1000
+    },
+    color7F7F7F: {
+        color: '#7F7F7F'
+    },
+    borderBottomColor7F7F7F: {
+        borderBottomColor: '#7F7F7F'
+    },
+    colorFF0000: {
+        color: '#FF0000'
+    },
+    backgroundColor7D7B7B: {
+        backgroundColor: '#7D7B7B'
+    },
+    size90px: {
+        width: 150,
+        height: 150
+    },
+    marginBottom30: {
+        marginBottom: 30
+    },
+    borderBottomWidth05px: {
+        borderBottomWidth: 0.5
+    },
+    borderBottomColor7D7B7B: {
+        borderBottomColor: '#7D7B7B'
+    },
+    borderColorWhite: {
+        borderColor: 'white',
     }
 
 })

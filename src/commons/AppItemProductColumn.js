@@ -7,7 +7,7 @@ const AppItemProductColumn = (props) => {
     const { name, type, price, srcImg } = props;
 
     return (
-        <View>
+        <View style={getStyleContainer()}>
             <View style={getStyleContainerImg()}>
                 {srcImg && <Image style={getStyleImgItem()} source={srcImg} />}
             </View>
@@ -22,6 +22,11 @@ const AppItemProductColumn = (props) => {
 
 export default AppItemProductColumn
 
+var getStyleContainer = () => {
+    return {
+        ...Style.marginVertical10,
+    }
+}
 
 var getStyleTxtPrice = () => {
     return {

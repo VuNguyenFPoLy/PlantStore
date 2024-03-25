@@ -41,7 +41,6 @@ var getStyleContainer = () => {
 
 var getStyleGreenText = () => {
     return {
-        ...Style.fontSize12,
         ...Style.fontFamilyPoppinsRegular,
         ...Style.color009245,
     }
@@ -49,7 +48,6 @@ var getStyleGreenText = () => {
 
 var getStyleBlackText = () => {
     return {
-        ...Style.fontSize12,
         ...Style.fontFamilyPoppinsRegular,
         ...Style.color000000,
         ...Style.textAlignCenter,

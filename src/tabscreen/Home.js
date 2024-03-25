@@ -1,13 +1,19 @@
-import { View, Text, SafeAreaView, StatusBar, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, FlatList, SafeAreaView, StatusBar, TouchableOpacity, ScrollView } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import HeaderHome from '../commons/HeaderHome'
 import Style from '../style/AppStyle'
 import AppFlatList from '../commons/AppFlatList'
 import AppItemProductColumn from '../commons/AppItemProductColumn'
 import AppDoubleText from '../commons/AppDoubleText'
+import AxiosInstance from '../helpers/AxiosInstance'
+import ListProduct from '../stackscreen/ListProduct'
 
 
 const Home = (props) => {
+    const [allProduct, setAllProduct] = useState([]);
+    const [listPlants, setListPlants] = useState([]);
+    const [listPots, setListPots] = useState([]);
+    const [listTools, setListTools] = useState([]);
 
     const { navigation } = props
     StatusBar.setHidden(false)
@@ -15,6 +21,52 @@ const Home = (props) => {
     const srcIconRight = require('../resouces/icon/circleCart.png');
     const srcIconInText = require('../resouces/icon/greenArrowRight.png');
     const srcImgBackground = require('../resouces/image/headerHome.png');
+
+    // get all product
+    useEffect(() => {
+        const getProduct = async () => {
+            try {
+                const response = await AxiosInstance().get('/products')
+                setAllProduct(response.data)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        getProduct();
+    }, []);
+
+    const filterProductByRole = (data, role) => {
+        return data.filter(item => item.role === role)
+    }
+
+    // set list product by role (1: plants, 2: pots, 3: tools)
+    useEffect(() => {
+        const setListByRole = () => {
+            if (allProduct) {
+
+                setListPlants(filterProductByRole(allProduct, 1))
+                setListPots(filterProductByRole(allProduct, 2))
+                setListTools(filterProductByRole(allProduct, 3))
+
+            }
+        }
+        setListByRole();
+    }, [allProduct]);
+
+    const liftOfSection = [
+        {
+            title: 'Cây trồng',
+            data: listPlants
+        },
+        {
+            title: 'Chậu cây',
+            data: listPots
+        },
+        {
+            title: 'Dụng cụ',
+            data: listTools
+        },
+    ]
 
     const onPressItem = () => {
         navigation.navigate('DetailProduct')
@@ -32,9 +84,37 @@ const Home = (props) => {
                     name={itemr.name}
                     type={itemr.type}
                     price={itemr.price}
-                    srcImg={itemr.srcImg}
+                    srcImg={{ uri: itemr.image }}
                 />
             </TouchableOpacity>
+        )
+    };
+
+    const renderSection = (item) => {
+        const rItem = item.item;
+        return(
+            <View style={getStyleBody()}>
+                    <AppFlatList
+                        title={rItem.title}
+                        data={rItem.data.slice(0, 6)}
+                        renderItem={renderItem}
+                        numColumn={2}
+                        columnWrapperStyle={getStyleColumnWrapper()}
+                        style={{
+                            container: getStyleContainerFlatList()
+                        }}
+                    />
+
+
+                    <AppDoubleText
+                        textRight={'Xem thêm cây trồng'}
+                        onPressRight={onPressViewMore}
+                        style={{
+                            txtRight: getStyleViewMoreProduct()
+                        }}
+                    />
+
+                </View>
         )
     }
 
@@ -60,27 +140,15 @@ const Home = (props) => {
                 }}
             />
 
-            <View style={getStyleBody()}>
-                <AppFlatList
-                    title={'Cây trồng'}
-                    data={itemList}
-                    renderItem={renderItem}
-                    numColumn={2}
-                    columnWrapperStyle={getStyleColumnWrapper()}
-                    style={{
-                        container: getStyleContainerFlatList()
-                    }}
-                />
+            <FlatList
+                data={liftOfSection}
+                renderItem={renderSection}
+                keyExtractor={item => item.title}
+                showsVerticalScrollIndicator={false}
+            />
+                
 
-                <AppDoubleText
-                    textRight={'Xem thêm cây trồng'}
-                    onPressRight={onPressViewMore}
-                    style={{
-                        txtRight: getStyleViewMoreProduct()
-                    }}
-                />
-
-            </View>
+                
 
 
 

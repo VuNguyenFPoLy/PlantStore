@@ -5,10 +5,9 @@ import AppControllQuantity from './AppControllQuantity'
 
 const AppItemProductRow = (props) => {
 
-    const { style, name, price, quantity, type,
-        number, srcIconLeft, onPressIcon } = props
+    const { style, title1, title2, title4, title3,
+        number, srcIconLeft, srcImg, onPressIcon } = props
 
-    const srcImg = require('../resouces/image/sp1.png')
 
     return (
         <View style={getStyleContainer()}>
@@ -17,19 +16,19 @@ const AppItemProductRow = (props) => {
                     <Image style={getStyleSize24()} source={srcIconLeft} />
                 </TouchableOpacity>}
 
-            <View style={getStyleContainerImg()}>
+            {srcImg && <View style={getStyleContainerImg()}>
                 <Image style={getStyleImgProduct()} source={srcImg} />
-            </View>
+            </View>}
 
             <View style={getStyleContainerDetail()}>
-                {name && <Text style={style.txtName}>{name}</Text>}
+                {title1 && <Text style={style.title1}>{title1}</Text>}
 
                 <View style={getStyleRowTxt()}>
-                    <Text style={style.txtPrice}>{price}</Text>
-                    {type && <Text>{type}</Text>}
+                    {title2 && <Text style={style.title2}>{title2}</Text>}
+                    {title3 && <Text style={style.title3}>{title3}</Text>}
                 </View>
 
-                <Text style={style.txtQuantity}>{quantity}</Text>
+                {title4 && <Text style={style.title4}>{title4}</Text>}
 
                 {number && <AppControllQuantity
                     quantity={number}

@@ -7,14 +7,16 @@ const AppHeader = (props) => {
     const { srcIconLeft, srcIconRight, title,
         onPressIconLeft, onPressIconRight, style } = props;
 
+    const srcArrowLeft = require('../resouces/icon/arrowLeft.png');
+
     return (
         <View style={style.container}>
 
             <View style={getStyleRow()}>
-                <View>
-                    {srcIconLeft && <TouchableOpacity onPress={onPressIconLeft}>
-                        <Image style={getStyleIcon()} source={srcIconLeft} />
-                    </TouchableOpacity>}
+                <View style={getStyleWidth24()}>
+                    <TouchableOpacity onPress={onPressIconLeft}>
+                        <Image style={getStyleIcon()} source={srcIconLeft || srcArrowLeft} />
+                    </TouchableOpacity>
                 </View>
 
                 <Text style={getStyleTxtTitle()}>{title}</Text>
@@ -32,6 +34,7 @@ const AppHeader = (props) => {
 }
 
 export default AppHeader
+
 
 var getStyleWidth24 = () => {
     return {

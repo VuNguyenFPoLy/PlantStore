@@ -1,11 +1,12 @@
 import { View, StatusBar, KeyboardAvoidingView, TouchableWithoutFeedback, Platform, Keyboard } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 import Style from '../style/AppStyle'
 import HeaderAuthen from '../commons/HeaderAuthen'
 import AppTextInput from '../commons/AppTextInput'
 import ButtonAuthen from '../commons/ButtonAuthen'
 import BottomAuthen from '../commons/BottomAuthen'
+import AxiosInstance from '../helpers/AxiosInstance'
 
 const Register = (props) => {
 
@@ -14,9 +15,70 @@ const Register = (props) => {
 
     const srcImg = require('../resouces/image/headerRegister.png');
     const srcIconEye = require('../resouces/icon/eye.png');
+    const srcIconEyeOff = require('../resouces/icon/eyeOff.png');
+
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [focusName, setFocusName] = useState(false);
+    const [focusEmail, setFocusEmail] = useState(false);
+    const [focusPhoneNumber, setFocusPhoneNumber] = useState(false);
+    const [focusPassword, setFocusPassword] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+
 
     const handleClickGoBack = () => {
         navigation.goBack()
+    }
+
+    const handleShowPassword = () => {
+        setShowPassword(!showPassword);
+    }
+
+    const setNullTxtInput = () => {
+        setFullName('')
+        setEmail('')
+        setPhoneNumber('')
+        setPassword('')
+    }
+
+    const handleRegister = async () => {
+
+        const REGEX_EMAIL = /^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)$/;
+        const REGEX_NAME = /^[a-zA-Z ]*$/;
+        const REGEX_PHONE = /^[0-9]{10}$/;
+        const REGEX_PASSWORD = /^[a-zA-Z0-9_.+-@]{6,}$/;
+
+        if (!fullName || !email || !phoneNumber || !password) return alert("Vui lòng nhập đầy đủ thông tin");
+        if (!REGEX_NAME.test(fullName)) return alert("Họ tên không đúng");
+        if (!REGEX_EMAIL.test(email)) return alert("Email không đúng");
+        if (!REGEX_PHONE.test(phoneNumber)) return alert("Số điện thoại không đúng");
+        if (password.length < 6) return alert("Mật khẩu quá ngắn");
+        if (!REGEX_PASSWORD.test(password)) return alert("Mật khẩu không đúng định dạng");
+
+        
+        try {
+            const body = {
+                name: fullName,
+                email: email,
+                phone: phoneNumber,
+                password: password
+            }
+    
+            const result = await AxiosInstance().post('/users/register', body);
+    
+            if (result.status == true) {
+                setNullTxtInput();
+                navigation.navigate('Login')
+            } else {
+                alert('Đăng ký thất bại')
+            }
+        } catch (error) {
+            console.log('error', error);
+            alert('Đăng ký thất bị')
+        }
     }
 
 
@@ -44,50 +106,66 @@ const Register = (props) => {
                     <View style={getStyleContentContainer()}>
                         <AppTextInput
                             style={{
-                                txtInput: getStyleTextInput(),
+                                txtInput: focusName ? getStyleTxtInputFocus() : getStyleTextInput(),
                                 sizeIcon: getStyleIconEye(),
                                 position: getStyleTouchIconEye()
                             }}
                             placeholder='Họ tên'
                             keyboardType='default'
+                            setValue={setFullName}
+                            value={fullName}
+                            onFocus={() => setFocusName(true)}
+                            onBlur={() => setFocusName(false)}
                         />
 
                         <AppTextInput
                             style={{
-                                txtInput: getStyleTextInput(),
+                                txtInput: focusEmail ? getStyleTxtInputFocus() : getStyleTextInput(),
                                 sizeIcon: getStyleIconEye(),
                                 position: getStyleTouchIconEye()
                             }}
                             placeholder='E-mail'
                             keyboardType='email-address'
-                            secureTextEntry={true}
+                            setValue={setEmail}
+                            value={email}
+                            onFocus={() => setFocusEmail(true)}
+                            onBlur={() => setFocusEmail(false)}
                         />
 
                         <AppTextInput
                             style={{
-                                txtInput: getStyleTextInput(),
+                                txtInput: focusPhoneNumber ? getStyleTxtInputFocus() : getStyleTextInput(),
                                 sizeIcon: getStyleIconEye(),
                                 position: getStyleTouchIconEye()
                             }}
                             placeholder='Số điện thoại'
                             keyboardType='number-pad'
-                            secureTextEntry={true}
+                            setValue={setPhoneNumber}
+                            value={phoneNumber}
+                            onFocus={() => setFocusPhoneNumber(true)}
+                            onBlur={() => setFocusPhoneNumber(false)}
                         />
 
                         <AppTextInput
-                            srcIcon={srcIconEye}
+                            srcIcon={showPassword ? srcIconEyeOff : srcIconEye}
+                            onPress={handleShowPassword}
                             style={{
-                                txtInput: getStyleTextInput(),
+                                txtInput: focusPassword ? getStyleTxtInputFocus() : getStyleTextInput(),
                                 sizeIcon: getStyleIconEye(),
                                 position: getStyleTouchIconEye()
                             }}
                             placeholder='Mật khẩu'
                             keyboardType='default'
-                            secureTextEntry={true}
+                            secureTextEntry={!showPassword}
+                            setValue={setPassword}
+                            value={password}
+                            onFocus={() => setFocusPassword(true)}
+                            onBlur={() => setFocusPassword(false)}
                         />
 
                         <ButtonAuthen
                             titleBtn='Đăng ký'
+                            onPressTouchable={handleRegister}
                         />
 
                         <BottomAuthen
@@ -140,6 +218,16 @@ var getStyleDescriptionHeader = () => {
         ...Style.fontSize18,
         ...Style.color000000,
         ...Style.fontFamilyPoppinsRegular
+    }
+}
+
+var getStyleTxtInputFocus = () => {
+    return {
+        ...Style.borderWidth1px,
+        ...Style.borderColor009245,
+        ...Style.borderRadius10px,
+        ...Style.paddingHorizontal15px,
+        ...Style.height46px,
     }
 }
 

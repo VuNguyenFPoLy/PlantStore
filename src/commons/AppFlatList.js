@@ -9,12 +9,13 @@ const AppFlatList = (props) => {
 
     return (
         <View style={style.container}>
-            {title && <Text style={getStyleTile()}>{title}</Text>}
+            
+            {title && <Text style={style.title || getStyleTile()}>{title}</Text>}
 
             <FlatList
                 data={data}
                 renderItem={renderItem}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item._id.toString()}
                 numColumns={numColumn == 2 ? 2 : null}
                 columnWrapperStyle={columnWrapperStyle}
                 style={style}

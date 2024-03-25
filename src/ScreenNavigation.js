@@ -16,6 +16,10 @@ import Profile from './tabscreen/Profile'
 import DetailProduct from './stackscreen/DetailProduct'
 import ListProduct from './stackscreen/ListProduct'
 import Cart from './stackscreen/Cart'
+import UpdateProfile from './stackscreen/UpdateProfile'
+import Payment from './stackscreen/Payment'
+import TransactionHistory from './stackscreen/TransactionHistory'
+import QA from './stackscreen/QA'
 
 const TabNavigation = () => {
 
@@ -68,9 +72,9 @@ const TabNavigation = () => {
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarIcon: ({ focused }) => setIconBottom(route, focused),
-                tabBarStyle: { ...Style.paddingHorizontal48 }
+                tabBarStyle: getStyleTabBar()
             })}
-            initialRouteName='Home'
+            initialRouteName='Notification'
         >
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Search" component={Search} />
@@ -88,7 +92,7 @@ const ScreenNavigation = () => {
     return (
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
-            initialRouteName='Cart'
+            initialRouteName='TabNavigation'
         >
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Register" component={Register} />
@@ -96,14 +100,23 @@ const ScreenNavigation = () => {
             <Stack.Screen name='DetailProduct' component={DetailProduct} />
             <Stack.Screen name='ListProduct' component={ListProduct} />
             <Stack.Screen name='Cart' component={Cart} />
-
-
-
+            <Stack.Screen name='UpdateProfile' component={UpdateProfile} />
+            <Stack.Screen name='Payment' component={Payment} />
+            <Stack.Screen name='TransactionHistory' component={TransactionHistory} />
+            <Stack.Screen name='QA' component={QA} />
         </Stack.Navigator>
     )
 }
 
 export default ScreenNavigation
+
+var getStyleTabBar = () => {
+    return {
+        ...Style.paddingHorizontal48,
+        ...Style.borderColorWhite,
+        ...Style.backgroundColorWhite,
+    }
+}
 
 var getStyleContainerBottomIcon = () => {
     return {

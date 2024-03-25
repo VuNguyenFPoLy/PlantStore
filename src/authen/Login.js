@@ -6,8 +6,11 @@ import HeaderAuthen from '../commons/HeaderAuthen'
 import AppTextInput from '../commons/AppTextInput'
 import ButtonAuthen from '../commons/ButtonAuthen'
 import BottomAuthen from '../commons/BottomAuthen'
+import AxiosInstance from '../helpers/AxiosInstance'
 
 const Login = (props) => {
+    const [emailOrPhone, setEmailOrPhone] = useState(null);
+    const [password, setPassword] = useState(null);
 
     const { navigation } = props
 
@@ -22,8 +25,45 @@ const Login = (props) => {
     const srcIconGrayStick = require('../resouces/icon/grayStick.png');
     const srcIconGreenStick = require('../resouces/icon/greenStick.png');
 
-    const handleClickLogin = () => {
-        navigation.navigate('TabNavigation')
+    const handleClickLogin = async () => {
+        const REGEX_EMAIL = /^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)$/;
+        const REGEX_PHONE = /^[0-9]{10}$/;
+        const REGEX_PASSWORD = /^[a-zA-Z0-9_.+-@]{6,}$/;
+
+        if (!emailOrPhone || !password) return alert("Vui lòng điền đầy đủ thông tin");
+        if (!REGEX_EMAIL.test(emailOrPhone) && !REGEX_PHONE.test(emailOrPhone)) return alert("Email hoặc sđt không đúng");
+        if (password.length < 6) return alert("Mật khẩu quá ngắn");
+        if (!REGEX_PASSWORD.test(password)) return alert("Mật không đúng định dạng");
+
+        let resultEmail, resultPhone;
+
+        if (REGEX_EMAIL.test(emailOrPhone)) {
+            resultEmail = emailOrPhone
+        } else {
+            resultPhone = emailOrPhone
+        }
+
+        try {
+            const body = {
+                email: resultEmail,
+                phone: resultPhone,
+                password: password
+            }
+
+            const result = await AxiosInstance().post('users/login', body);
+
+            if (result.status == true) {
+                setEmailOrPhone(null);
+                setPassword(null);
+                navigation.navigate('TabNavigation')
+            } else {
+                alert('Đăng nhập thất bại')
+            }
+        } catch (error) {
+            console.log('error', error);
+            alert('Đăng nhập thất bại')
+        }
+
     }
 
     const handleClickRegister = () => {
@@ -69,6 +109,8 @@ const Login = (props) => {
                             }}
                             placeholder='Nhập email hoặc số điện thoại'
                             keyboardType='default'
+                            value={emailOrPhone}
+                            setValue={setEmailOrPhone}
                         />
 
                         <AppTextInput
@@ -82,10 +124,12 @@ const Login = (props) => {
                             placeholder='Mật khẩu'
                             keyboardType='default'
                             secureTextEntry={true}
+                            value={password}
+                            setValue={setPassword}
                         />
 
                         <ButtonAuthen
-                            onPressLogin={handleClickLogin}
+                            onPressTouchable={handleClickLogin}
                             onPressRemember={hanldeRememberAccount}
                             srcIconLeft={rememberAcount ? srcIconGreenStick : srcIconGrayStick}
                             titleBtn='Đăng nhập'
