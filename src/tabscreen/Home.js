@@ -5,9 +5,8 @@ import Style from '../style/AppStyle'
 import AppFlatList from '../commons/AppFlatList'
 import AppItemProductColumn from '../commons/AppItemProductColumn'
 import AppDoubleText from '../commons/AppDoubleText'
-import AxiosInstance from '../helpers/AxiosInstance'
-import ListProduct from '../stackscreen/ListProduct'
-
+import { useDispatch } from 'react-redux'
+import { getProducts } from '../redux/products/ProductThunk'
 
 const Home = (props) => {
     const [allProduct, setAllProduct] = useState([]);
@@ -22,12 +21,35 @@ const Home = (props) => {
     const srcIconInText = require('../resouces/icon/greenArrowRight.png');
     const srcImgBackground = require('../resouces/image/headerHome.png');
 
+    const dispatch = useDispatch();
+
+    var liftOfSection = [
+        {
+            _id: 1,
+            title: 'Cây trồng',
+            viewMore: 'Xem thêm cây trồng',
+            data: listPlants
+        },
+        {
+            _id: 2,
+            title: 'Chậu cây',
+            viewMore: 'Xem thêm Chậu cây',
+            data: listPots
+        },
+        {
+            _id: 3,
+            title: 'Dụng cụ',
+            viewMore: 'Xem thêm dụng cụ',
+            data: listTools
+        },
+    ]
+
     // get all product
     useEffect(() => {
         const getProduct = async () => {
             try {
-                const response = await AxiosInstance().get('/products')
-                setAllProduct(response.data)
+                const response = await dispatch(getProducts());
+                if (response.payload) setAllProduct(response.payload)
             } catch (error) {
                 console.log(error)
             }
@@ -53,38 +75,29 @@ const Home = (props) => {
         setListByRole();
     }, [allProduct]);
 
-    const liftOfSection = [
-        {
-            title: 'Cây trồng',
-            data: listPlants
-        },
-        {
-            title: 'Chậu cây',
-            data: listPots
-        },
-        {
-            title: 'Dụng cụ',
-            data: listTools
-        },
-    ]
 
-    const onPressItem = () => {
-        navigation.navigate('DetailProduct')
+
+    const onPressItem = (item) => {
+        navigation.navigate('DetailProduct', { _id: item._id })
     }
 
-    const onPressViewMore = () => {
-        navigation.navigate('ListProduct')
+    const onPressViewMore = (item) => {
+        navigation.navigate('ListProduct', { objType: item })
+    }
+
+    const handleClickCart = () => {
+        navigation.navigate('Cart')
     }
 
     const renderItem = (item) => {
-        const itemr = item.item
+        const rItem = item.item
         return (
-            <TouchableOpacity onPress={() => onPressItem()}>
+            <TouchableOpacity onPress={() => onPressItem(rItem)}>
                 < AppItemProductColumn
-                    name={itemr.name}
-                    type={itemr.type}
-                    price={itemr.price}
-                    srcImg={{ uri: itemr.image }}
+                    name={rItem.name}
+                    type={rItem.type}
+                    price={rItem.price}
+                    srcImg={{ uri: rItem.image }}
                 />
             </TouchableOpacity>
         )
@@ -92,34 +105,36 @@ const Home = (props) => {
 
     const renderSection = (item) => {
         const rItem = item.item;
-        return(
+        return (
             <View style={getStyleBody()}>
-                    <AppFlatList
-                        title={rItem.title}
-                        data={rItem.data.slice(0, 6)}
-                        renderItem={renderItem}
-                        numColumn={2}
-                        columnWrapperStyle={getStyleColumnWrapper()}
-                        style={{
-                            container: getStyleContainerFlatList()
-                        }}
-                    />
+                <AppFlatList
+                    title={rItem.title}
+                    data={rItem.data.slice(0, 6)}
+                    renderItem={renderItem}
+                    numColumn={2}
+                    columnWrapperStyle={getStyleColumnWrapper()}
+                    style={{
+                        container: getStyleContainerFlatList()
+                    }}
+                />
 
 
-                    <AppDoubleText
-                        textRight={'Xem thêm cây trồng'}
-                        onPressRight={onPressViewMore}
-                        style={{
-                            txtRight: getStyleViewMoreProduct()
-                        }}
-                    />
+                <AppDoubleText
+                    textRight={rItem.viewMore}
+                    onPressRight={() => onPressViewMore(rItem)}
+                    style={{
+                        txtRight: getStyleViewMoreProduct()
+                    }}
+                />
 
-                </View>
+            </View>
         )
     }
 
     return (
         <SafeAreaView style={getStyleContainer()}>
+            <StatusBar backgroundColor={'#F6F6F6'} barStyle="dark-content" />
+
             <HeaderHome
                 title1={'Planta - toả sáng'}
                 title2={'không gian nhà bạn'}
@@ -127,6 +142,7 @@ const Home = (props) => {
                 srcIconRight={srcIconRight}
                 srcImgBackground={srcImgBackground}
                 srcIconInText={srcIconInText}
+                onPressIconRight={handleClickCart}
                 style={{
                     container: getStyleContainerHeader(),
                     sizeHeaderImg: getStyleImgBackgroundHeader(),
@@ -146,10 +162,6 @@ const Home = (props) => {
                 keyExtractor={item => item.title}
                 showsVerticalScrollIndicator={false}
             />
-                
-
-                
-
 
 
         </SafeAreaView>
@@ -157,6 +169,7 @@ const Home = (props) => {
 }
 
 export default Home
+
 
 var itemList = [
     {

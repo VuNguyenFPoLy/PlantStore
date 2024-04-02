@@ -5,25 +5,43 @@ import Style from '../style/AppStyle'
 import BannerProduct from './BannerProduct'
 
 const BodyDetailProduct = (props) => {
-    const { style } = props;
+    const { srcBanner, style, role, type, price, size, brand, quantity } = props;
+
+    const filterRole = (role) => {
+        switch (role) {
+            case 1:
+                return 'Cây trồng'
+                break;
+
+            case 2:
+                return 'Chậu cây'
+                break;
+            case 1:
+                return 'Dụng cụ'
+                break;
+        }
+    }
 
     return (
         <View style={style.containerBody}>
-            <BannerProduct />
+
+            <BannerProduct
+                srcBanner={srcBanner}
+            />
 
             <View style={getStyleContainer()}>
                 <View style={getStyleRowType()}>
-                    <Text style={getStyleTxtType()}>Cây trồng</Text>
-                    <Text style={getStyleTxtType()}>Ưa bóng</Text>
+                    <Text style={getStyleTxtType()}>{filterRole(role)}</Text>
+                    <Text style={getStyleTxtType()}>{type}</Text>
                 </View>
 
                 <View>
-                    <Text style={getStyleTxtPrice()}>250.000đ</Text>
+                    <Text style={getStyleTxtPrice()}>{price}</Text>
                     <Text style={getStyleLabelDetail()}>Chi tiết sản phẩm </Text>
 
                     <AppDoubleText
                         textLeft='Kích cỡ'
-                        textRight='Nhỏ'
+                        textRight={size}
                         style={{
                             row: getStyleTxtDetail(),
                             txtLeft: getStyleLeftRightDetail(),
@@ -33,7 +51,7 @@ const BodyDetailProduct = (props) => {
 
                     <AppDoubleText
                         textLeft='Xuất xứ'
-                        textRight='Châu Phi'
+                        textRight={brand}
                         style={{
                             row: getStyleTxtDetail(),
                             txtLeft: getStyleLeftRightDetail(),
@@ -43,7 +61,7 @@ const BodyDetailProduct = (props) => {
 
                     <AppDoubleText
                         textLeft='Tình trạng'
-                        textRight='Còn 156 sp'
+                        textRight={`Còn ${quantity} sp`}
                         style={{
                             row: getStyleTxtDetail(),
                             txtLeft: getStyleLeftRightDetail(),
@@ -100,7 +118,7 @@ var getStyleTxtPrice = () => {
 
 var getStyleLabelDetail = () => {
     return {
-        ...Style.fontSize16,
+        ...Style.fontSize18,
         ...Style.color3A3A3A,
         ...Style.borderBottomColor221F1F,
         ...Style.borderBottomWidth1px,
@@ -120,6 +138,7 @@ var getStyleLeftRightDetail = () => {
     return {
         ...Style.fontFamilyLatoRegular,
         ...Style.color3A3A3A,
+        ...Style.fontSize16,
     }
 }
 
@@ -130,6 +149,6 @@ var getStyleTxtDetail = () => {
         ...Style.borderBottomColorABABAB,
         ...Style.borderBottomWidth1px,
         ...Style.paddingBottom5px,
-        ...Style.marginTop15px,
+        ...Style.marginTop20px,
     }
 }

@@ -1,8 +1,12 @@
 import axios from 'axios';
 
 const AxiosInstance = (contentType = 'application/json') => {
+
+    const ipv4Phone = '172.20.10.2';
+    const ipv4Home = '192.168.1.111';
+
     const axiosInstance = axios.create({
-        baseURL: 'http://192.168.1.111:3001/'
+        baseURL: `http://${ipv4Home}:3001/`
     });
 
     axiosInstance.interceptors.request.use(

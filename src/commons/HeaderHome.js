@@ -1,17 +1,20 @@
-import { Image, ImageBackground, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'
+import { Image, ImageBackground, Pressable, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 
 const HeaderHome = (props) => {
 
-    const { title1, title2, contentTxtClick, srcIconInText, srcIconRight, srcImgBackground, style } = props
+    const { title1, title2, contentTxtClick, srcIconInText,
+        srcIconRight, srcImgBackground, style, onPressIconRight } = props
     return (
         <View>
-            <StatusBar backgroundColor={'#F6F6F6'} barStyle="dark-content" />
 
             <View>
                 <View style={style.rowCart}>
                     {title1 && <Text style={style.title}>{title1}</Text>}
-                    {srcIconRight && <Image style={style.sizeIconCart} source={srcIconRight} />}
+                    {srcIconRight &&
+                        <TouchableOpacity onPress={onPressIconRight}>
+                            <Image style={style.sizeIconCart} source={srcIconRight} />
+                        </TouchableOpacity>}
                 </View>
 
                 <ImageBackground style={style.sizeHeaderImg} source={srcImgBackground} >

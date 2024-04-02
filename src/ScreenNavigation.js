@@ -1,9 +1,12 @@
 import { View, Text, Image } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Style from './style/AppStyle'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { useSelector, useDispatch } from 'react-redux'
+import { userSlice } from './redux/UserSlice'
 
 import Login from './authen/Login'
 import Register from './authen/Register'
@@ -21,9 +24,12 @@ import Payment from './stackscreen/Payment'
 import TransactionHistory from './stackscreen/TransactionHistory'
 import QA from './stackscreen/QA'
 
+
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
 const TabNavigation = () => {
 
-    const Tab = createBottomTabNavigator();
 
     const srcBottomIcon = {
         Home: require('./resouces/icon/home.png'),
@@ -74,7 +80,7 @@ const TabNavigation = () => {
                 tabBarIcon: ({ focused }) => setIconBottom(route, focused),
                 tabBarStyle: getStyleTabBar()
             })}
-            initialRouteName='Notification'
+            initialRouteName='Home'
         >
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Search" component={Search} />
@@ -84,18 +90,27 @@ const TabNavigation = () => {
     )
 }
 
+const AuthenNavigation = () => {
 
-const ScreenNavigation = () => {
+    return (
+        <Stack.Navigator
+            screenOptions={{ headerShown: false }}
+            initialRouteName='Login'
+        >
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Register} />
 
-    const Stack = createNativeStackNavigator();
+        </Stack.Navigator>
+    )
+}
+
+const StackNavigation = () => {
 
     return (
         <Stack.Navigator
             screenOptions={{ headerShown: false }}
             initialRouteName='TabNavigation'
         >
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name='TabNavigation' component={TabNavigation} />
             <Stack.Screen name='DetailProduct' component={DetailProduct} />
             <Stack.Screen name='ListProduct' component={ListProduct} />
@@ -105,6 +120,32 @@ const ScreenNavigation = () => {
             <Stack.Screen name='TransactionHistory' component={TransactionHistory} />
             <Stack.Screen name='QA' component={QA} />
         </Stack.Navigator>
+    )
+}
+
+const ScreenNavigation = () => {
+    const dispatch = useDispatch();
+
+
+    useEffect(() => {
+        const getData = async () => {
+            try {
+                const jsonValue = await AsyncStorage.getItem('user')
+                if (jsonValue != null) {
+                    const user = JSON.parse(jsonValue)
+                    dispatch(userSlice.actions.setUser(user))
+                }
+            } catch (error) {
+                console.log('Get data error: ', error.message);
+            }
+        }
+        getData();
+    }, [])
+
+    const selector = useSelector(state => state.user)
+    return (
+        selector.user ? <StackNavigation /> : <AuthenNavigation />
+
     )
 }
 

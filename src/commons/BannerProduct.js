@@ -8,7 +8,8 @@ const BannerProduct = (props) => {
     const { srcBanner } = props;
     return (
         <View style={getStyleContainerBanner()}>
-            <ImageBackground style={getSizeImg()} source={require('../resouces/image/bannerDetail.png')} >
+
+           {srcBanner && <ImageBackground style={getSizeImg()} source={{uri: srcBanner}} >
                 <View style={getStyleRowArrow()}>
                     <TouchableOpacity>
                         <Image style={getStyleIconArrow()} source={require('../resouces/icon/circleArrowLeft.png')} />
@@ -23,7 +24,7 @@ const BannerProduct = (props) => {
                     <Image style={getStyleIconDot()} source={require('../resouces/icon/threeDot.png')} />
                 </View>
 
-            </ImageBackground>
+            </ImageBackground>}
 
         </View>
     )

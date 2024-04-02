@@ -6,16 +6,15 @@ import HeaderAuthen from '../commons/HeaderAuthen'
 import AppTextInput from '../commons/AppTextInput'
 import ButtonAuthen from '../commons/ButtonAuthen'
 import BottomAuthen from '../commons/BottomAuthen'
-import AxiosInstance from '../helpers/AxiosInstance'
+import { useDispatch, useSelector } from 'react-redux'
+import { loginThunk } from '../redux/LoginThunk'
 
 const Login = (props) => {
-    const [emailOrPhone, setEmailOrPhone] = useState(null);
-    const [password, setPassword] = useState(null);
-
     const { navigation } = props
-
     StatusBar.setHidden(true)
 
+    const [emailOrPhone, setEmailOrPhone] = useState(null);
+    const [password, setPassword] = useState(null);
     const [rememberAcount, setRememberAcount] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
 
@@ -24,6 +23,8 @@ const Login = (props) => {
     const srcIconEyeOff = require('../resouces/icon/eyeOff.png');
     const srcIconGrayStick = require('../resouces/icon/grayStick.png');
     const srcIconGreenStick = require('../resouces/icon/greenStick.png');
+
+    const dispatch = useDispatch();
 
     const handleClickLogin = async () => {
         const REGEX_EMAIL = /^([a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+)$/;
@@ -50,12 +51,10 @@ const Login = (props) => {
                 password: password
             }
 
-            const result = await AxiosInstance().post('users/login', body);
-
-            if (result.status == true) {
+            const result = await dispatch(loginThunk(body));
+            if (result.payload) {
                 setEmailOrPhone(null);
                 setPassword(null);
-                navigation.navigate('TabNavigation')
             } else {
                 alert('Đăng nhập thất bại')
             }
@@ -80,71 +79,69 @@ const Login = (props) => {
 
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
-            style={getStyleKeyboardAvoidingView()}
-        >
-            <TouchableWithoutFeedback
-                onPress={Keyboard.dismiss}>
-                <View style={getStyleContainer()}>
-                    <StatusBar translucent showHideTransition={false} backgroundColor='transparent' />
 
-                    <HeaderAuthen
-                        title='Chào mừng bạn'
-                        description='Đăng nhập tài khoản'
-                        srcImg={srcImg}
+        <TouchableWithoutFeedback
+            onPress={Keyboard.dismiss}>
+            <View style={getStyleContainer()}>
+                <StatusBar translucent showHideTransition={false} backgroundColor='transparent' />
+
+                <HeaderAuthen
+                    title='Chào mừng bạn'
+                    description='Đăng nhập tài khoản'
+                    srcImg={srcImg}
+                    style={{
+                        sizeHeaderImg: getStyleHeaderImg(),
+                        titleHeader: getStyletitleHeader(),
+                        descriptionHeader: getStyleDescriptionHeader()
+                    }}
+                />
+
+                <View style={getStyleContentContainer()}>
+                    <AppTextInput
                         style={{
-                            sizeHeaderImg: getStyleHeaderImg(),
-                            titleHeader: getStyletitleHeader(),
-                            descriptionHeader: getStyleDescriptionHeader()
+                            txtInput: getStyleTextInput(),
+                            sizeIcon: getStyleIconEye(),
+                            position: getStyleTouchIconEye()
                         }}
+                        placeholder='Nhập email hoặc số điện thoại'
+                        keyboardType='default'
+                        value={emailOrPhone}
+                        setValue={setEmailOrPhone}
                     />
 
-                    <View style={getStyleContentContainer()}>
-                        <AppTextInput
-                            style={{
-                                txtInput: getStyleTextInput(),
-                                sizeIcon: getStyleIconEye(),
-                                position: getStyleTouchIconEye()
-                            }}
-                            placeholder='Nhập email hoặc số điện thoại'
-                            keyboardType='default'
-                            value={emailOrPhone}
-                            setValue={setEmailOrPhone}
-                        />
+                    <AppTextInput
+                        srcIcon={showPassword ? srcIconEyeOff : srcIconEye}
+                        onPress={handleShowPassword}
+                        style={{
+                            txtInput: getStyleTextInput(),
+                            sizeIcon: getStyleIconEye(),
+                            position: getStyleTouchIconEye()
+                        }}
+                        placeholder='Mật khẩu'
+                        keyboardType='default'
+                        secureTextEntry={!showPassword}
+                        value={password}
+                        setValue={setPassword}
+                    />
 
-                        <AppTextInput
-                            srcIcon={showPassword ? srcIconEyeOff : srcIconEye}
-                            onPress={handleShowPassword}
-                            style={{
-                                txtInput: getStyleTextInput(),
-                                sizeIcon: getStyleIconEye(),
-                                position: getStyleTouchIconEye()
-                            }}
-                            placeholder='Mật khẩu'
-                            keyboardType='default'
-                            secureTextEntry={true}
-                            value={password}
-                            setValue={setPassword}
-                        />
+                    <ButtonAuthen
+                        onPressTouchable={handleClickLogin}
+                        onPressRemember={hanldeRememberAccount}
+                        srcIconLeft={rememberAcount ? srcIconGreenStick : srcIconGrayStick}
+                        titleBtn='Đăng nhập'
+                    />
 
-                        <ButtonAuthen
-                            onPressTouchable={handleClickLogin}
-                            onPressRemember={hanldeRememberAccount}
-                            srcIconLeft={rememberAcount ? srcIconGreenStick : srcIconGrayStick}
-                            titleBtn='Đăng nhập'
-                        />
 
-                        <BottomAuthen
-                            contentBlackText='Bạn không có tài khoản ?'
-                            contentGreenText='Tạo tài khoản'
-                            onPressGreenText={handleClickRegister}
-
-                        />
-                    </View>
                 </View>
-            </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
+
+                <BottomAuthen
+                    contentBlackText='Bạn không có tài khoản ?'
+                    contentGreenText='Tạo tài khoản'
+                    onPressGreenText={handleClickRegister}
+
+                />
+            </View>
+        </TouchableWithoutFeedback>
     )
 }
 
@@ -153,7 +150,6 @@ export default Login
 var getStyleContainer = () => {
     return {
         ...Style.flex1,
-        ...Style.justifyContentSpaceAround,
         marginBottom: 20
     }
 }
@@ -213,6 +209,7 @@ var getStyleContentContainer = () => {
     return {
         ...Style.paddingHorizontal30px,
         ...Style.marginTop20px,
+        ...Style.gap15px,
     }
 }
 

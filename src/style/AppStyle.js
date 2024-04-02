@@ -371,6 +371,17 @@ export default styles = StyleSheet.create({
     },
     borderColorWhite: {
         borderColor: 'white',
+    },
+    paddingTop30px: {
+        paddingTop: 30
+    },
+    positionBadge: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+    },
+    gap5: {
+        gap: 5
     }
 
 })

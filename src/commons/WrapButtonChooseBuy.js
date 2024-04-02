@@ -8,7 +8,7 @@ import Style from '../style/AppStyle'
 
 const WrapButtonChooseBuy = (props) => {
 
-    const { quantity, price, style } = props
+    const { quantity, price, style, onPressMinus, onPressPlus, onPress } = props
 
     return (
         <View style={style.containerWrapBtn}>
@@ -25,6 +25,8 @@ const WrapButtonChooseBuy = (props) => {
                 <AppControllQuantity
                     txtRight={price}
                     quantity={quantity}
+                    onPressMinus={onPressMinus}
+                    onPressPlus={onPressPlus}
                     price={price}
                     style={{
                         rowBtn: getStyleRowBtn(),
@@ -36,8 +38,10 @@ const WrapButtonChooseBuy = (props) => {
 
             <AppButton
                 title='Chọn mua'
+                onPress={onPress}
+                disabled={quantity == 0 ? true : false}
                 style={{
-                    btn: getStyleBtn(),
+                    btn: quantity == 0 ? getStyleBtn() : getStyleBtnClickAble(),
                     txt: getStyleTxtBtn()
                 }}
             />
@@ -87,6 +91,16 @@ var getStyleTxtBtn = () => {
         ...Style.fontSize16,
         ...Style.colorWhite,
         ...Style.fontFamilyLatoRegular,
+    }
+}
+
+var getStyleBtnClickAble = () => {
+    return {
+        ...Style.height50px,
+        ...Style.borderRadius8px,
+        ...Style.backgroundColor007537,
+        ...Style.alignItemsCenter,
+        ...Style.justifyContentCenter,
     }
 }
 

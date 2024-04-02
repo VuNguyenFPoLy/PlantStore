@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, StatusBar, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, Text, View, StatusBar, TouchableOpacity, ImageBackground } from 'react-native'
 import React from 'react'
 import Style from '../style/AppStyle';
 
@@ -22,8 +22,11 @@ const AppHeader = (props) => {
                 <Text style={getStyleTxtTitle()}>{title}</Text>
 
                 <View style={getStyleWidth24()}>
+
                     {srcIconRight && <TouchableOpacity onPress={onPressIconRight}>
-                        <Image style={getStyleIcon()} source={srcIconRight} />
+                        <ImageBackground style={getStyleIcon()} source={srcIconRight} >
+                        </ImageBackground>
+
                     </TouchableOpacity>}
                 </View>
             </View>
@@ -53,7 +56,9 @@ var getStyleTxtTitle = () => {
 
 var getStyleIcon = () => {
     return {
-        ...Style.sizeIcon24px
+        ...Style.sizeIcon24px,
+        ...Style.alignItemsCenter,
+        ...Style.justifyContentCenter,
     }
 }
 

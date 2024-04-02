@@ -5,11 +5,11 @@ import Style from '../style/AppStyle'
 const AppHeaderProfile = (props) => {
 
     const { style, srcAvatar, title1, title2 } = props;
-    const srcAvatarDefault = require('../resouces/image/sp1.png');
+    
     return (
         <View style={style.container}>
             <TouchableOpacity>
-                <Image style={style.avatar} source={srcAvatar || srcAvatarDefault} />
+                <Image style={style.avatar} source={srcAvatar} />
             </TouchableOpacity>
 
             <View>

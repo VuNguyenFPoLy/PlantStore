@@ -6,15 +6,38 @@ import AppTextInput from '../commons/AppTextInput'
 import AppDoubleText from '../commons/AppDoubleText'
 import AppButton from '../commons/AppButton'
 
-const Payment = () => {
+const Payment = (props) => {
 
+    const { navigation } = props;
     const srcIconGreenStick = require('../resouces/icon/check.png');
+
+    const handleGoBack = () => {
+        navigation.goBack();
+    }
+
+    const renderItem = (item) => {
+        const rItem = item.item;
+        return (
+            <AppItemProductRow
+                srcImg={srcImg}
+                title1={rItem.status === 0 ? fail : success}
+                title2={rItem.name + ' | '}
+                title3={rItem.type}
+                title4={rItem.quantity}
+                style={{
+                    title1: rItem.status === 0 ? getStyleStatusFail() : getStyleStatusSuccess(),
+                    title2: getStyleNameItem(),
+                    title4: getStyleQuantity()
+                }} />
+        )
+    }
 
     return (
         <View style={getStyleContainer()}>
             <StatusBar barStyle='dark-content' backgroundColor={'white'} />
             <AppHeader
                 title='THANH TOÁN'
+                onPressIconLeft={handleGoBack}
                 style={{}}
             />
 
@@ -140,6 +163,35 @@ const Payment = () => {
 }
 
 export default Payment
+
+var getStyleNameItem = () => {
+    return {
+        ...Style.fontSize16,
+        ...Style.color000000,
+    }
+}
+
+
+var getStyleQuantity = () => {
+    return {
+        ...Style.color000000,
+    }
+}
+
+
+var getStyleStatusFail = () => {
+    return {
+        ...Style.fontSize16,
+        ...Style.colorFF0000,
+    }
+}
+
+var getStyleStatusSuccess = () => {
+    return {
+        ...Style.fontSize16,
+        ...Style.color007537,
+    }
+}
 
 var getStyleContainerBottom = () => {
     return {

@@ -1,50 +1,69 @@
-import { StatusBar, Text, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import { StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
 
-import Style from '../style/AppStyle'
-import AppHeaderProfile from '../commons/AppHeaderProfile'
-import AppHeader from '../commons/AppHeader'
-import AppFlatList from '../commons/AppFlatList'
-
+import Style from '../style/AppStyle';
+import AppHeaderProfile from '../commons/AppHeaderProfile';
+import AppHeader from '../commons/AppHeader';
+import AppFlatList from '../commons/AppFlatList';
+import { useSelector, useDispatch } from 'react-redux';
+import { userSlice } from '../redux/UserSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile = (props) => {
-    StatusBar.setHidden(false);
-
+    const [srcAvatar, setSrcAvatar] = useState(null);
     const { navigation } = props;
 
-    const handleClickFlatList = (title) => {
+    useEffect(() => {
+        StatusBar.setHidden(false);
+    }, []);
+
+    const srcAvatarDefault = require('../resouces/image/sp1.png');
+
+    const dispatch = useDispatch();
+
+    const selector = useSelector(state => state.user);
+    const user = selector.user
+    const avatar = selector.user?.avatar ? { uri: user.avatar } : srcAvatarDefault;
+    
+    useEffect(() => {
+        setSrcAvatar(avatar);
+    }, [])
+
+    console.log('a')
+
+    const handleClickFlatList = async (title) => {
         switch (title) {
             case 'Chỉnh sửa thông tin':
                 navigation.navigate('UpdateProfile');
                 break;
 
             case 'Đăng xuất':
-                navigation.navigate('Login');
+                await AsyncStorage.removeItem('user');
+                dispatch(userSlice.actions.setUser(null));
                 break;
 
             default:
                 break;
         }
-    }
+    };
 
-    const renderItem = (item) => {
-        const rItem = item.item
-        const logout = rItem.title === 'Đăng xuất' ? true : false;
+    const renderItem = ({ item }) => {
+        const logout = item.title === 'Đăng xuất';
         return (
-            <TouchableOpacity onPress={handleClickFlatList.bind(this, rItem.title)}>
-                <Text style={logout ? getStyleLogout() : getStyleItem()}>{rItem.title}</Text>
+            <TouchableOpacity onPress={() => handleClickFlatList(item.title)}>
+                <Text style={logout ? getStyleLogout() : getStyleItem()}>{item.title}</Text>
             </TouchableOpacity>
-        )
-    }
+        );
+    };
+
     return (
         <View style={getStyleContainer()}>
             <StatusBar backgroundColor={'#FFFFFF'} barStyle={'dark-content'} />
-            <AppHeader
-                title='PROFILE'
-                style={{}}
-            />
+            <AppHeader title='PROFILE' style={{}} />
             <AppHeaderProfile
-
+                title1={user.name}
+                title2={user.email}
+                srcAvatar={srcAvatar}
                 style={{
                     container: getStyleContainerHeader(),
                     avatar: getStyleSizeAvatar(),
@@ -71,10 +90,11 @@ const Profile = (props) => {
                 }}
             />
         </View>
-    )
-}
+    );
+};
 
-export default Profile
+export default Profile;
+
 
 var listItemGeneral = [
     {

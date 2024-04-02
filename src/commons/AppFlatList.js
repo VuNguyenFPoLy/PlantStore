@@ -5,7 +5,7 @@ import Style from '../style/AppStyle'
 const AppFlatList = (props) => {
 
     const { title, data, renderItem, numColumn, columnWrapperStyle,
-        style, horizontal } = props
+        style, horizontal, showsHorizontalScrollIndicator } = props
 
     return (
         <View style={style.container}>
@@ -20,6 +20,8 @@ const AppFlatList = (props) => {
                 columnWrapperStyle={columnWrapperStyle}
                 style={style}
                 horizontal={horizontal}
+                showsHorizontalScrollIndicator={showsHorizontalScrollIndicator}
+                showsVerticalScrollIndicator={false}
             />
         </View>
     )

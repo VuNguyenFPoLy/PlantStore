@@ -2,17 +2,18 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import Style from '../style/AppStyle'
 
-const ItemHistorySearch = () => {
+const ItemHistorySearch = (props) => {
+    const { title, touchIconRight } = props;
+
     return (
-        <View>
-            <Text style={getStyleLabel()}>Tìm kiếm gần đây</Text>
+        <View style={getStyleContainer()}>
             <View style={getStyleRow()}>
                 <View style={getStyleWrapLeft()}>
                     <Image style={getStyleSizeIcon20()} source={require('../resouces/icon/clock.png')} />
-                    <Text style={getStyleName()}>Spider Plant </Text>
+                    <Text style={getStyleName()}>{title}</Text>
                 </View>
 
-                <TouchableOpacity>
+                <TouchableOpacity onPress={touchIconRight}>
                     <Image style={getStyleSizeIcon20()} source={require('../resouces/icon/close.png')} />
                 </TouchableOpacity>
             </View>
@@ -22,12 +23,12 @@ const ItemHistorySearch = () => {
 
 export default ItemHistorySearch
 
-var getStyleLabel = () => {
-    return {
-        ...Style.fontSize16,
-        ...Style.color000000,
+var getStyleContainer = () => {
+    return{
     }
 }
+
+
 
 var getStyleName = () => {
     return {

@@ -6,7 +6,8 @@ import AppControllQuantity from './AppControllQuantity'
 const AppItemProductRow = (props) => {
 
     const { style, title1, title2, title4, title3,
-        number, srcIconLeft, srcImg, onPressIcon } = props
+        number, srcIconLeft, srcImg, onPressIcon,
+        onPressDelete, onPressMinus, onPressPlus } = props
 
 
     return (
@@ -31,8 +32,11 @@ const AppItemProductRow = (props) => {
                 {title4 && <Text style={style.title4}>{title4}</Text>}
 
                 {number && <AppControllQuantity
-                    quantity={number}
                     txtRight='Xóa'
+                    quantity={number}
+                    onPressText={onPressDelete}
+                    onPressMinus={onPressMinus}
+                    onPressPlus={onPressPlus}
                     style={{
                         containerQuantity: getStyleContainerQuantityControl(),
                         rowBtn: getStyleRowControlQuantity(),
@@ -80,9 +84,8 @@ var getStyleRowControlQuantity = () => {
 
 var getStyleContainerDetail = () => {
     return {
-        ...Style.justifyContentSpaceBetween,
         ...Style.padding5,
-
+        ...Style.gap5
     }
 }
 
