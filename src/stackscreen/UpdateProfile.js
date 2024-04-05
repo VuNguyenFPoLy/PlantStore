@@ -1,14 +1,22 @@
 import { View, Text } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import AppHeaderProfile from '../commons/AppHeaderProfile'
 import AppHeader from '../commons/AppHeader'
 import AppTextInput from '../commons/AppTextInput'
 import AppButton from '../commons/AppButton'
 import Style from '../style/AppStyle'
+import { useSelector } from 'react-redux'
 
 const UpdateProfile = (props) => {
 
     const { navigation } = props;
+    const selector = useSelector(state => state.user);
+    const user = selector.user;
+
+    const [nameUser, setNameUser] = useState(user?.name);
+    const [email, setEmail] = useState(user?.email);
+    const [address, setAddress] = useState(user?.address);
+    const [phoneNumber, setPhoneNumber] = useState(user?.phone);
 
     const handleGoBack = () => {
         navigation.goBack();
@@ -26,6 +34,7 @@ const UpdateProfile = (props) => {
             <AppHeaderProfile
                 title1='Thông tin sẽ được lưu cho lần mua kế tiếp.'
                 title2='Bấm vào thông tin chi tiết để chỉnh sửa.'
+                srcAvatar={{ uri: user?.avatar }}
                 style={{
                     avatar: getStyleAvatar(),
                     container: getStyleContainerHeader(),
@@ -36,6 +45,8 @@ const UpdateProfile = (props) => {
 
             <View style={getStyleContainer()}>
                 <AppTextInput
+                    value={nameUser}
+                    setValue={setNameUser}
                     placeholder='Họ và tên'
                     style={{
                         txtInput: getStyleTxtInput()
@@ -43,6 +54,8 @@ const UpdateProfile = (props) => {
                 />
 
                 <AppTextInput
+                    value={email}
+                    setValue={setEmail}
                     placeholder='Email'
                     style={{
                         txtInput: getStyleTxtInput()
@@ -50,6 +63,8 @@ const UpdateProfile = (props) => {
                 />
 
                 <AppTextInput
+                    value={address}
+                    setValue={setAddress}
                     placeholder='Địa chỉ'
                     style={{
                         txtInput: getStyleTxtInput()
@@ -57,6 +72,8 @@ const UpdateProfile = (props) => {
                 />
 
                 <AppTextInput
+                    value={phoneNumber}
+                    setValue={setPhoneNumber}
                     placeholder='Số điện thoại'
                     style={{
                         txtInput: getStyleTxtInput()

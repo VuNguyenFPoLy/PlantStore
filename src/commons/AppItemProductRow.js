@@ -5,7 +5,7 @@ import AppControllQuantity from './AppControllQuantity'
 
 const AppItemProductRow = (props) => {
 
-    const { style, title1, title2, title4, title3,
+    const { style, title1, title2, title4, title3, title,
         number, srcIconLeft, srcImg, onPressIcon,
         onPressDelete, onPressMinus, onPressPlus } = props
 
@@ -22,7 +22,10 @@ const AppItemProductRow = (props) => {
             </View>}
 
             <View style={getStyleContainerDetail()}>
-                {title1 && <Text style={style.title1}>{title1}</Text>}
+                <View style={getStyleRowTxt()}>
+                    {title && <Text style={style.title}>{title}</Text>}
+                    {title1 && <Text style={style.title1}>{title1}</Text>}
+                </View>
 
                 <View style={getStyleRowTxt()}>
                     {title2 && <Text style={style.title2}>{title2}</Text>}

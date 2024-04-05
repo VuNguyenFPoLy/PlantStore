@@ -382,6 +382,9 @@ export default styles = StyleSheet.create({
     },
     gap5: {
         gap: 5
+    },
+    displayNone: {
+        display: 'none'
     }
 
 })

@@ -124,7 +124,7 @@ const DetailProduct = (props) => {
 
             <WrapButtonChooseBuy
                 quantity={selectQuantity}
-                price={totalPrice == 0 ? totalPrice : totalPrice.toFixed(3)}
+                price={totalPrice == 0 ? totalPrice : totalPrice.toFixed(3) + 'đ'}
                 onPressMinus={handleMinus}
                 onPressPlus={handlePlus}
                 onPress={handleAddCart}

@@ -1,33 +1,94 @@
 import { View, Text, StatusBar, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import AppHeader from '../commons/AppHeader'
 import Style from '../style/AppStyle'
-import AppFlatList from '../commons/AppFlatList'
 import AppItemProductRow from '../commons/AppItemProductRow'
+import AppFlatList from '../commons/AppFlatList'
+import AxiosInstance from '../helpers/AxiosInstance'
+import { useSelector } from 'react-redux'
+import moment from 'moment'
 
-const TransactionHistory = () => {
-    const srcImg = require('../resouces/image/sp1.png');
+const TransactionHistory = (props) => {
+    const { navigation } = props;
+    const selector = useSelector(state => state.user);
+    const user = selector.user;
+    const [notifications, setNotifications] = useState([]);
+    const [products, setProducts] = useState([]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const notificationResult = await AxiosInstance().get(`/notifications/idUser/${user._id}`);
+                if (notificationResult.status === true) {
+                    setNotifications(notificationResult.data);
+
+                    const pdOfNotify = notificationResult.data.flatMap(item => item.products);
+                    const productIds = pdOfNotify.map(product => product._id);
+                    let tempArr = [];
+
+                    // Fetch data for each product
+                    for (let i = 0; i < productIds.length; i++) {
+                        const productResult = await AxiosInstance().get(`/products/${productIds[i]}`);
+                        if (productResult.status === true) {
+                            tempArr.push(productResult.data);
+                        }
+                    }
+                    // Use spread operator update quantity
+                    if (tempArr.length > 0) {
+                        for (let i = 0; i < tempArr.length; i++) {
+                            for (let j = 0; j < pdOfNotify.length; j++) {
+                                if (tempArr[i]._id === pdOfNotify[j]._id) {
+                                    tempArr[i].quantity = pdOfNotify[j].quantity
+                                }
+                            }
+                        }
+                        setProducts(tempArr);
+                    }
+                }
+            } catch (error) {
+                console.log('Error fetching data:', error.message);
+            }
+        };
+        fetchData();
+    }, []);
+
+    const handleBack = () => {
+        navigation.goBack();
+    }
 
     const renderItem = (item) => {
         const rItem = item.item;
-        const success = 'Đặt hàng thành công';
-        const fail = 'Đã hủy đơn hàng';
+        const pdOfItem = rItem.products;
+        const status = rItem.status == 0 ? 'Đặt hàng thành công' : 'Đã hủy đơn hàng';
+        const date = moment(rItem.createdAt).format('DD/MM/YYYY');
+        const dayOfWeek = moment(rItem.createdAt).format('dddd');
+
+        let rProduct = [];
+        for (let i = 0; i < pdOfItem.length; i++) {
+            const product = products.find(product => product._id === pdOfItem[i]._id);
+            if (product) rProduct.push(product);
+        }
         return (
             <TouchableOpacity style={getStyleContainerItem()}>
-                <Text style={getStyleDate()}>{rItem.date}</Text>
+                <Text style={getStyleDate()}>{dayOfWeek + ', ' + date}</Text>
 
-                <AppItemProductRow
-                    srcImg={srcImg}
-                    title1={rItem.status === 0 ? fail : success}
-                    title2={rItem.name + ' | '}
-                    title3={rItem.type}
-                    title4={rItem.quantity}
-                    style={{
-                        title1: rItem.status === 0 ? getStyleStatusFail() : getStyleStatusSuccess(),
-                        title2: getStyleNameItem(),
-                        title4: getStyleQuantity()
-                    }} />
+                {rProduct.map((item, index) => {
+                    return (
+                        <View key={index}>
+                            <AppItemProductRow
+                                srcImg={{ uri: item.image }}
+                                title1={status}
+                                title2={item.name + ' | '}
+                                title3={item.type}
+                                title4={item.quantity + ' sản phẩm'}
+                                style={{
+                                    title1: status === 'Đặt hàng thành công' ? getStyleStatusSuccess() : getStyleStatusFail(),
+                                    title2: getStyleNameItem(),
+                                    title4: getStyleQuantity()
+                                }} />
+                        </View>
+                    )
+                })}
             </TouchableOpacity>
 
         )
@@ -35,46 +96,29 @@ const TransactionHistory = () => {
 
     return (
         <View style={getStyleContainer()}>
-            <StatusBar backgroundColor={'white'} barStyle={'dark-content'} />
-
-            <AppHeader title='LỊCH SỬ GIAO DỊCH' style={{}} />
+            <StatusBar barStyle="dark-content" backgroundColor={'white'} />
+            <AppHeader
+                title={'LỊCH SỬ GIAO DỊCH'}
+                onPressIconLeft={handleBack}
+                style={{}} />
+            {!products && <Text style={getStyleTxtNotify()}>Hiện bạn chưa có giao dịch nào</Text>}
 
             <AppFlatList
-                data={listItem}
+                data={notifications.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))}
                 renderItem={renderItem}
                 style={{
                     container: getStyleContainerFlatList()
                 }} />
 
-
-        </View>
+        </View >
     )
 }
 
 export default TransactionHistory
 
-var listItem = [
-    {
-        _id: 0,
-        status: 1,
-        name: 'Spider Plant',
-        type: 'Ưa bóng',
-        quantity: 2,
-        date: '03/09/2021'
-    },
-    {
-        _id: 1,
-        status: 0,
-        name: 'Spider Plant',
-        type: 'Ưa bóng',
-        quantity: 2,
-        date: '01/09/2021'
-
-    },
-]
 
 var getStyleContainerItem = () => {
-    return{
+    return {
         ...Style.marginBottom30
     }
 }
@@ -110,7 +154,7 @@ var getStyleNameItem = () => {
 }
 
 var getStyleStatusFail = () => {
-    return{
+    return {
         ...Style.fontSize16,
         ...Style.colorFF0000,
     }

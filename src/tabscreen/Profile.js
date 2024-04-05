@@ -24,7 +24,7 @@ const Profile = (props) => {
     const selector = useSelector(state => state.user);
     const user = selector.user
     const avatar = selector.user?.avatar ? { uri: user.avatar } : srcAvatarDefault;
-    
+
     useEffect(() => {
         setSrcAvatar(avatar);
     }, [])
@@ -35,6 +35,10 @@ const Profile = (props) => {
         switch (title) {
             case 'Chỉnh sửa thông tin':
                 navigation.navigate('UpdateProfile');
+                break;
+
+            case 'Lịch sử giao dịch':
+                navigation.navigate('TransactionHistory');
                 break;
 
             case 'Đăng xuất':

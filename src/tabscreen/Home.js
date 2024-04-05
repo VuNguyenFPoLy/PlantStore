@@ -7,6 +7,11 @@ import AppItemProductColumn from '../commons/AppItemProductColumn'
 import AppDoubleText from '../commons/AppDoubleText'
 import { useDispatch } from 'react-redux'
 import { getProducts } from '../redux/products/ProductThunk'
+import { useSharedValue, useAnimatedStyle, withTiming, interpolate, Extrapolation } from 'react-native-reanimated'
+
+const srcIconRight = require('../resouces/icon/circleCart.png');
+const srcIconInText = require('../resouces/icon/greenArrowRight.png');
+const srcImgBackground = require('../resouces/image/headerHome.png');
 
 const Home = (props) => {
     const [allProduct, setAllProduct] = useState([]);
@@ -17,11 +22,41 @@ const Home = (props) => {
     const { navigation } = props
     StatusBar.setHidden(false)
 
-    const srcIconRight = require('../resouces/icon/circleCart.png');
-    const srcIconInText = require('../resouces/icon/greenArrowRight.png');
-    const srcImgBackground = require('../resouces/image/headerHome.png');
-
     const dispatch = useDispatch();
+
+    const offset = useSharedValue(0);
+    const headerHeight = 300;
+
+    const headerAnimation = useAnimatedStyle(() => {
+        const headerHeightAnimated = interpolate(
+            offset.value,
+            [0, headerHeight],
+            [headerHeight, 0],
+            Extrapolation.CLAMP
+        )
+
+        const headerOpacityAnimated = interpolate(
+            offset.value,
+            [0, headerHeight],
+            [1, 0], // Opacity của header khi cuộn
+            Extrapolation.CLAMP
+        );
+
+        const headerScaleAnimated = interpolate(
+            offset.value,
+            [0, headerHeight],
+            [1, 0], // Scale của header khi cuộn
+            Extrapolation.CLAMP
+        );
+
+        return {
+            height: withTiming(headerHeightAnimated),
+            opacity: withTiming(headerOpacityAnimated),
+            // transform: [{ scale: withTiming(headerScaleAnimated) }],
+        };
+    }, []);
+
+
 
     var liftOfSection = [
         {
@@ -96,7 +131,7 @@ const Home = (props) => {
                 < AppItemProductColumn
                     name={rItem.name}
                     type={rItem.type}
-                    price={rItem.price}
+                    price={rItem.price.toFixed(3) + 'đ'}
                     srcImg={{ uri: rItem.image }}
                 />
             </TouchableOpacity>
@@ -152,7 +187,8 @@ const Home = (props) => {
                     rowContentClickAble: getStyleRowContenClickable(),
                     contentInImgHeader: getStyleContentInImgHeader(),
                     txtClickAble: getStyleTxtContentClickAble(),
-                    sizeArrowRight: getStyleIconArrowRight()
+                    sizeArrowRight: getStyleIconArrowRight(),
+                    animatedStyles: headerAnimation
                 }}
             />
 
@@ -161,6 +197,9 @@ const Home = (props) => {
                 renderItem={renderSection}
                 keyExtractor={item => item.title}
                 showsVerticalScrollIndicator={false}
+                onScroll={(e) => {
+                    offset.value = e.nativeEvent.contentOffset.y
+                }}
             />
 
 

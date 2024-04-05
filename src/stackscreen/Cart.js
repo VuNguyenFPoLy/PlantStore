@@ -88,14 +88,14 @@ const Cart = memo((props) => {
         if (item.isChecked == false) {
             mapCarts[index].isChecked = true;
 
-            tempPaymentList.push(item._id);
+            tempPaymentList.push(item);
 
             setSumPrice(sumPrice + item.price * item.quantity);
             setproductsOfCarts([...mapCarts]);
             setListPayment([...tempPaymentList]);
         } else {
             mapCarts[index].isChecked = false;
-            tempPaymentList.splice(tempPaymentList.indexOf(item._id), 1);
+            tempPaymentList.splice(tempPaymentList.indexOf(item), 1);
 
             setSumPrice(sumPrice - item.price * item.quantity);
             setproductsOfCarts([...mapCarts]);
