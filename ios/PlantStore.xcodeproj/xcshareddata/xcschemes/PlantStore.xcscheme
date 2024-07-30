@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "ASMcro102.app"
-               BlueprintName = "ASMcro102"
-               ReferencedContainer = "container:ASMcro102.xcodeproj">
+               BuildableName = "PlantStore.app"
+               BlueprintName = "PlantStore"
+               ReferencedContainer = "container:PlantStore.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ASMcro102Tests.xctest"
-               BlueprintName = "ASMcro102Tests"
-               ReferencedContainer = "container:ASMcro102.xcodeproj">
+               BuildableName = "PlantStoreTests.xctest"
+               BlueprintName = "PlantStoreTests"
+               ReferencedContainer = "container:PlantStore.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ASMcro102.app"
-            BlueprintName = "ASMcro102"
-            ReferencedContainer = "container:ASMcro102.xcodeproj">
+            BuildableName = "PlantStore.app"
+            BlueprintName = "PlantStore"
+            ReferencedContainer = "container:PlantStore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "ASMcro102.app"
-            BlueprintName = "ASMcro102"
-            ReferencedContainer = "container:ASMcro102.xcodeproj">
+            BuildableName = "PlantStore.app"
+            BlueprintName = "PlantStore"
+            ReferencedContainer = "container:PlantStore.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

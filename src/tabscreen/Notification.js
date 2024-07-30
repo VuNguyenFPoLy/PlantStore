@@ -8,12 +8,12 @@ import AxiosInstance from '../helpers/AxiosInstance'
 import { useSelector } from 'react-redux'
 import moment from 'moment'
 
-const Notification = () => {
-
+const Notification = (props) => {
+  const navigation = props;
   const selector = useSelector(state => state.user);
   const user = selector.user;
-  const [notifications, setNotifications] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [notifications, setNotifications] = useState([]); 
+  const [products, setProducts] = useState([]); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +53,7 @@ const Notification = () => {
   }, []);
 
   const handleBack = () => {
-    navigation.goBack();
+    navigation.navigate('Home');
   }
   const renderItem = (item) => {
     const rItem = item.item;
